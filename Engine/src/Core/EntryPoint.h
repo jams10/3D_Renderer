@@ -1,6 +1,6 @@
 #pragma once
 
-extern Engine::Application* Engine::CreateApplication();
+extern Engine::Application* Engine::Create_Application();
 
 /*
 * 프로그램의 진입점.
@@ -9,7 +9,7 @@ extern Engine::Application* Engine::CreateApplication();
 int main(int argc, char** argv)
 {
 	std::cout << "Started Engine...\n";
-	auto app = Engine::CreateApplication();
+	auto app = Engine::Create_Application();
 	app->Run();
 	delete app;
 }

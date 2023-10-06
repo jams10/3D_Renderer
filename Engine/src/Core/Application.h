@@ -15,5 +15,5 @@ namespace Engine
 	};
 
 	// SandBox 프로젝트에서 Application 클래스를 상속 받고 이 함수를 구현해줌.
-	Application* CreateApplication();
+	Application* Create_Application();
 }
