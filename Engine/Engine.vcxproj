@@ -141,9 +141,15 @@
     <ClInclude Include="src\Event\EventMacros.h" />
     <ClInclude Include="src\Event\KeyboardEvent.h" />
     <ClInclude Include="src\Event\MouseEvent.h" />
+    <ClInclude Include="src\Platform\Win32\WindowsHeaders.h" />
+    <ClInclude Include="src\Platform\Win32\WindowsWindow.h" />
+    <ClInclude Include="src\Utils\CustomLog.h" />
+    <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Platform\Win32\WindowsWindow.cpp" />
+    <ClCompile Include="src\Utils\CustomLog.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

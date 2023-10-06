@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Common/CommonHeaders.h"
+#include "EventMacros.h"
 
 namespace Engine
 {

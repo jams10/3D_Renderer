@@ -4,5 +4,6 @@
 #include <string>
 #include <sstream>
 #include <functional>
+#include <memory>
 
 #include "Types.h"
