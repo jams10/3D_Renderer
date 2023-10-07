@@ -10,12 +10,12 @@ public:
 
 	virtual void On_Update(float dt) override
 	{
-		//std::cout << "Update\n";
+
 	}
 
 	virtual void On_Event(Engine::Event& event) override
 	{
-		std::cout << event.To_String() << '\n';
+
 	}
 };
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Common\CommonHeaders.h" />
+    <ClInclude Include="src\Common\CommonMacros.h" />
     <ClInclude Include="src\Common\Types.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\EntryPoint.h" />
@@ -141,8 +142,13 @@
     <ClInclude Include="src\Event\EventMacros.h" />
     <ClInclude Include="src\Event\KeyboardEvent.h" />
     <ClInclude Include="src\Event\MouseEvent.h" />
+    <ClInclude Include="src\Graphics\Renderer.h" />
     <ClInclude Include="src\Layer\Layer.h" />
     <ClInclude Include="src\Layer\LayerStack.h" />
+    <ClInclude Include="src\Platform\Direct3D12\D3D12Command.h" />
+    <ClInclude Include="src\Platform\Direct3D12\D3D12Headers.h" />
+    <ClInclude Include="src\Platform\Direct3D12\D3D12Macros.h" />
+    <ClInclude Include="src\Platform\Direct3D12\D3D12Renderer.h" />
     <ClInclude Include="src\Platform\Win32\WindowsHeaders.h" />
     <ClInclude Include="src\Platform\Win32\WindowsWindow.h" />
     <ClInclude Include="src\Utils\CustomLog.h" />
@@ -151,8 +157,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Layer\Layer.cpp" />
     <ClCompile Include="src\Layer\LayerStack.cpp" />
+    <ClCompile Include="src\Platform\Direct3D12\D3D12Command.cpp" />
+    <ClCompile Include="src\Platform\Direct3D12\D3D12Renderer.cpp" />
     <ClCompile Include="src\Platform\Win32\WindowsWindow.cpp" />
     <ClCompile Include="src\Utils\CustomLog.cpp" />
     <ClCompile Include="src\Utils\GameTimer.cpp" />

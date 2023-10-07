@@ -2,12 +2,14 @@
 
 #include "Common/CommonHeaders.h"
 #include "Event/ApplicationEvent.h"
+#include "Graphics/Renderer.h"
 #include "Utils/GameTimer.h"
 #include "Layer/LayerStack.h"
 
 namespace Engine
 {
 	class Window;
+	using namespace Graphics;
 
 	/*
 	* GameLoop를 수행하는 클래스. SandBox 프로젝트 쪽에서 이 클래스를 상속 받아 Loop에서 실행 시킬 로직을 구현함.
@@ -36,6 +38,7 @@ namespace Engine
 		bool _is_window_active = true;
 
 		std::unique_ptr<Window> _wnd;
+		std::unique_ptr<Renderer> _gfx;
 		Game_Timer _timer;
 		Layer_Stack _layer_stack;
 

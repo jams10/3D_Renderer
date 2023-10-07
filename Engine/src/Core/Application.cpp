@@ -16,10 +16,15 @@ namespace Engine
 		// 이 시점에서는 콜백 함수가 바인딩 되어 있지 않기 때문에 빈 함수 객체를 호출하기 때문에 bad_function_call 오류 발생.
 		// 따라서, 윈도우 클래스 객체 생성 시점에 콜백 함수도 같이 바인딩 해줌.
 		_wnd = std::unique_ptr<Window>(Window::Create(BIND_EVENT_CALLBACK(&Application::Process_Event)));
+
+		_gfx = std::unique_ptr<Renderer>(Renderer::Create(Graphics::GraphicsPlatform::Direct3D12));
+		_gfx->Initialize();
 	}
 
 	Application::~Application()
 	{
+		_gfx->Shutdown();
+
 		// entry point 인스턴스 에서 제거됨.
 		_instance = nullptr;
 	}
@@ -37,6 +42,8 @@ namespace Engine
 				for (Layer* layer : _layer_stack) // 레이어들의 update 호출.
 					layer->On_Update(_timer.Delta_Time());
 			}
+
+			_gfx->Render();
 
 			_wnd->On_Update();
 		}
