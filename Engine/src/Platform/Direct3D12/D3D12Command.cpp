@@ -105,8 +105,15 @@ namespace Engine::Graphics::D3D12
 		_frame_index = (_frame_index + 1) % frame_buffer_count;
 	}
 
+	// 모든 프레임 버퍼를 비워주는 함수.
 	void D3D12_Command::Flush()
 	{
+		// 모든 프레임 버퍼의 커맨드 리스트 작업이 끝날 때 까지 대기.
+		for (uint32 i{ 0 }; i < frame_buffer_count; ++i)
+		{
+			_cmd_frames[i].Wait(_fence_event, _fence);
+		}
+		_frame_index = 0;
 	}
 
 	void D3D12_Command::Release()

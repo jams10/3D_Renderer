@@ -31,9 +31,9 @@ if(FAILED(x)) {									\
 {                                                           \
 	wchar_t full_name[128];									\
 	if (swprintf_s(full_name, L"%s[%u]", name, idx) > 0) {	\
-		obj->SetName(name);									\
+		obj->SetName(full_name);							\
 		OutputDebugString(L"::D3D12 Object Created : ");	\
-		OutputDebugString(name); 							\
+		OutputDebugString(full_name); 						\
 		OutputDebugString(L"\n");							\
 	}                                                       \
 }
