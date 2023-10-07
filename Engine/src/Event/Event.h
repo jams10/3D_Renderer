@@ -11,7 +11,7 @@ namespace Engine
 	enum class Event_Type
 	{
 		None = 0,
-		Window_Close, Window_Resize, Window_Focus, Window_Lost_Focus, Window_Moved,
+		Window_Active, Window_Close, Window_Resize, Window_Focus, Window_Lost_Focus, Window_Moved,
 		App_Update, App_Render,
 		Key_Pressed, Key_Released,
 		Mouse_Button_Pressed, Mouse_Button_Released, Mouse_Moved, Mouse_Scrolled, Mouse_WheelUp, Mouse_WheelDown

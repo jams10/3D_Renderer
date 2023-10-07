@@ -2,6 +2,8 @@
 
 #include "Common/CommonHeaders.h"
 #include "Event/ApplicationEvent.h"
+#include "Utils/GameTimer.h"
+#include "Layer/LayerStack.h"
 
 namespace Engine
 {
@@ -20,13 +22,22 @@ namespace Engine
 
 		void Process_Event(Event& event);
 
+		void Push_Layer(Layer* layer);
+		void Pop_Layer(Layer* layer);
+
 	private:
 		bool On_Window_Close(Window_Close_Event event);
 		bool On_Window_Resize(Window_Resize_Event event);
+		bool On_Window_Active(Window_Active_Event event);
 
 	private:
-		std::unique_ptr<Window> _wnd;
 		bool _is_running = true;
+		bool _is_window_minimized = false;
+		bool _is_window_active = true;
+
+		std::unique_ptr<Window> _wnd;
+		Game_Timer _timer;
+		Layer_Stack _layer_stack;
 
 		static Application* _instance;
 	};

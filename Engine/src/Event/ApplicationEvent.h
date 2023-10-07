@@ -42,6 +42,29 @@ namespace Engine
 		EVENT_CLASS_CATEGORY(Event_Category_Application)
 	};
 
+	// 윈도우 활성, 비활성화 시 발생 시킬 이벤트.
+	class Window_Active_Event : public Event
+	{
+	public:
+		Window_Active_Event(bool is_active) 
+		: _is_active(is_active) {}
+
+		inline bool Get_Is_Active() const { return _is_active; }
+
+		std::string To_String() const override
+		{
+			std::stringstream ss;
+			ss << "Window Active Event: " << "Active(" << _is_active << ")";
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(Window_Active)
+		EVENT_CLASS_CATEGORY(Event_Category_Application)
+
+	private:
+		bool _is_active;
+	};
+
 	// Application 업데이트 작업 시 발생 시킬 이벤트.
 	class App_Update_Event : public Event
 	{

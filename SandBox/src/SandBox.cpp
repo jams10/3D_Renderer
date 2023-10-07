@@ -3,12 +3,28 @@
 
 #include "Engine.h"
 
+class ExampleLayer : public Engine::Layer
+{
+public:
+	ExampleLayer() {}
+
+	virtual void On_Update(float dt) override
+	{
+		//std::cout << "Update\n";
+	}
+
+	virtual void On_Event(Engine::Event& event) override
+	{
+		std::cout << event.To_String() << '\n';
+	}
+};
+
 class Sandbox : public Engine::Application // 엔진 쪽 Application 클래스를 상속함.
 {
 public:
 	Sandbox()
 	{
-
+		Push_Layer(new ExampleLayer());
 	}
 	~Sandbox()
 	{

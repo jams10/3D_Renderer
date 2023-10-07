@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include "Core/Application.h"
+#include "Event/Event.h"
+#include "Layer/Layer.h"
 
  // ### ÁøÀÔÁ¡ ###
 #include "Core/EntryPoint.h"

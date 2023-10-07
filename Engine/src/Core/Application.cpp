@@ -20,12 +20,24 @@ namespace Engine
 
 	Application::~Application()
 	{
+		// entry point 인스턴스 에서 제거됨.
+		_instance = nullptr;
 	}
 
 	void Application::Run()
 	{
+		_timer.Reset();
+
 		while (_is_running)
 		{
+			if (_is_window_minimized == false && _is_window_active == true)
+			{
+				_timer.Tick();
+
+				for (Layer* layer : _layer_stack) // 레이어들의 update 호출.
+					layer->On_Update(_timer.Delta_Time());
+			}
+
 			_wnd->On_Update();
 		}
 	}
@@ -40,12 +52,26 @@ namespace Engine
 		// 따라서 들어온 이벤트가 WindowCloseEvent인 경우, OnWindowClose 함수를 호출하고, ResizeEvent인 경우 OnWindowResize 함수가 호출되게 됨.
 		dispatcher.Dispatch<Window_Close_Event>(BIND_EVENT_CALLBACK(&Application::On_Window_Close));
 		dispatcher.Dispatch<Window_Resize_Event>(BIND_EVENT_CALLBACK(&Application::On_Window_Resize));
+		dispatcher.Dispatch<Window_Active_Event>(BIND_EVENT_CALLBACK(&Application::On_Window_Active));
 
-		// 테스트용 로그.
-		if (event.Get_Event_Type() == Event_Type::Window_Resize)
+		// 상위 레이어부터 이벤트를 받도록 함. 이벤트를 받은 레이어가 하위 레이어로 이벤트를 전파하지 않기 위해 Handled 값을 true로 바꾸면 
+		// 해당 이벤트를 더 이상 처리하지 않고 빠져나감.
+		for (auto it = _layer_stack.end(); it != _layer_stack.begin(); )
 		{
-			LOG_EVENT(event);
+			(*--it)->On_Event(event);
+			if (event.handled)
+				break;
 		}
+	}
+
+	void Application::Push_Layer(Layer* layer)
+	{
+		_layer_stack.Push_Layer(layer);
+	}
+
+	void Application::Pop_Layer(Layer* layer)
+	{
+		_layer_stack.Pop_Layer(layer);
 	}
 
 	// WindowClose 이벤트 처리 함수.
@@ -58,6 +84,25 @@ namespace Engine
 	// WindowResize 이벤트 처리 함수.
 	bool Application::On_Window_Resize(Window_Resize_Event event)
 	{
+		if (event.Get_Width() == 0 || event.Get_Height() == 0)
+		{
+			_is_window_minimized = true;
+			return false; // 하위 레이어에 이벤트 전파.
+		}
+		_is_window_minimized = false;
+		// TODO : 렌더링 화면 리사이징 작업.
+
+		return false;
+	}
+
+	bool Application::On_Window_Active(Window_Active_Event event)
+	{
+		_is_window_active = event.Get_Is_Active();
+
+		if (_is_window_active == true)
+			_timer.Start();
+		else _timer.Stop();
+
 		return true;
 	}
 }
