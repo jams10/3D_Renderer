@@ -27,7 +27,7 @@ namespace Engine::Graphics::D3D12
 	private:
 		ID3D12Device8* _main_device{ nullptr };
 		IDXGIFactory7* _dxgi_factory{ nullptr };
-		D3D12_Command  _gfx_command;
+		D3D12_Command* _gfx_command{ nullptr };
 
 		D3D_FEATURE_LEVEL _minimum_feature_level{ D3D_FEATURE_LEVEL_11_0 }; // 렌더러가 지원할 가장 낮은 feature level.
 	};

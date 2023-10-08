@@ -49,8 +49,10 @@ namespace Engine::Graphics::D3D12
 		// gfx_command 객체에 할당하는 것이 아니라 placement new를 사용하고 있는데, 
 		// 일단 그냥 gfx_command 객체를 생성해서 기본 생성자로 객체만 생성해주고, placment new를 사용해 매개 변수 있는 생성자를 통해 커맨드 리스트, 큐 등을 생성해줌.
 		// 또한 Command 클래스 인스턴스는 한 번만 생성하여 복사되거나 다른 객체에 대입되지 않기 위해 복사 생성자와 대입 연산자를 막아 주었다.
-		new (&_gfx_command) D3D12_Command(_main_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
-		if (!_gfx_command.Command_Queue()) return Failed_Initialize();
+		//new (&_gfx_command) D3D12_Command(_main_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		//if (!_gfx_command.Command_Queue()) return Failed_Initialize();
+		_gfx_command = new D3D12_Command(_main_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		if (!_gfx_command->Command_Queue()) return Failed_Initialize();
 
 		// 매크로를 이용해서 device 객체에 이름을 붙여줌.
 		NAME_D3D12_OBJECT(_main_device, L"Main D3D12 Device");
@@ -97,7 +99,9 @@ namespace Engine::Graphics::D3D12
 		}
 #endif // _DEBUG
 
-		_gfx_command.Release();
+		_gfx_command->Release();
+		delete _gfx_command;
+		_gfx_command = nullptr;
 
 		Release(_main_device);
 	}
@@ -107,13 +111,13 @@ namespace Engine::Graphics::D3D12
 	{
 		// 이전 프레임에 기록한 명령들이 끝났는지 체크하고 끝났으면 커맨드 할당자를 초기화 하여 명령들이 기록된 메모리를 날려줌.
 		// 커맨드 할당자 초기화 후에 커맨드 리스트도 초기화 하여 새 명령들을 기록하기 위해 열어줌.
-		_gfx_command.Begin_Frame();
+		_gfx_command->Begin_Frame();
 
-		ID3D12GraphicsCommandList6* cmd_list{ _gfx_command.Command_List() };
+		ID3D12GraphicsCommandList6* cmd_list{ _gfx_command->Command_List() };
 		// 명령 기록.
 
 		// 명령 기록이 끝나면 명령들을 큐에 제출하고, 명령들이 끝났는지 여부를 체크하기 위해 fence value를 1 증가 시키고, Signal() 함수를 호출.
-		_gfx_command.End_Frame();
+		_gfx_command->End_Frame();
 	}
 
 	// Direct3D12 초기화에 실패 했을 때 호출해줄 함수.
