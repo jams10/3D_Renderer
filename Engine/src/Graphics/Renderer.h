@@ -14,6 +14,7 @@ namespace Engine::Graphics
 	{
 	public:
 		Renderer() {}
+		virtual ~Renderer() {}
 		DISABLE_COPY_AND_MOVE(Renderer)
 
 		virtual bool Initialize() = 0;

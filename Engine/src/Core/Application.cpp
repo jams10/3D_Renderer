@@ -10,6 +10,7 @@ namespace Engine
 	Application::Application()
 	{
 		assert(_instance == nullptr);
+		_instance = this;
 
 		// 윈도우 메시지 발생 시 이벤트를 만들어 넘겼을 때 처리해줄 콜백 함수를 인자로 같이 넘겨 윈도우 생성.
 		// 원래는 생성 후에 콜백 함수를 바인딩 했으나, 윈도우 생성 시 WM_SIZE 메시지가 바로 발생하게 되는데 

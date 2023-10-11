@@ -14,3 +14,14 @@ namespace Engine::Graphics::D3D12
 {
 	constexpr uint32 frame_buffer_count{ 3 };
 }
+
+// COM 인터페이스 객체를 Release 하는 함수.
+template<typename T>
+constexpr void Release(T*& resource)
+{
+	if (resource)
+	{
+		resource->Release();
+		resource = nullptr;
+	}
+}

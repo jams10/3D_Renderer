@@ -34,6 +34,7 @@ namespace Engine::Graphics::D3D12
 		void Release()
 		{
 			::Release(_cmd_allocator);
+			_fence_value = 0;
 		}
 	};
 

@@ -10,7 +10,9 @@ namespace Engine::Graphics
 		switch (platform)
 		{
 		case GraphicsPlatform::Direct3D12:
-			return new D3D12::D3D12_Renderer();
+		{
+			return D3D12::D3D12_Renderer::Get_Instance();
+		}
 		}
 
 		LOG_ERROR("Platform not supported.")
