@@ -13,6 +13,8 @@
 namespace Engine::Graphics::D3D12
 {
 	constexpr uint32 frame_buffer_count{ 3 };
+	constexpr DXGI_FORMAT render_target_format{ DXGI_FORMAT_R8G8B8A8_UNORM_SRGB }; // 렌더 타겟 최종 포맷.
+	constexpr D3D_FEATURE_LEVEL minimum_feature_level{ D3D_FEATURE_LEVEL_11_0 }; // 렌더러가 지원할 가장 낮은 feature level.
 }
 
 // COM 인터페이스 객체를 Release 하는 함수.

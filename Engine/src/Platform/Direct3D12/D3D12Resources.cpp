@@ -90,6 +90,7 @@ namespace Engine::Graphics::D3D12
 
 	void Descriptor_Heap::Release()
 	{
+		// heap에 descriptor들이 남아 있으면 안됨. 이를 체크.
 		assert(!_size);
 		D3D12_Renderer::Get_Instance()->Deferred_Release(_heap);
 		_heap = nullptr;
@@ -116,7 +117,7 @@ namespace Engine::Graphics::D3D12
 		}
 
 		// 추후 디버깅을 위해 디버깅 전용 변수 값을 채워줌.
-		DEBUG_OP(handle.container = this);
+		DEBUG_OP(handle.container = this); // DEBUG_OP 매크로 : 디버깅 모드에서는 DEBUG_OP(x) = x;
 		DEBUG_OP(handle.index = index);
 		return handle;
 	}

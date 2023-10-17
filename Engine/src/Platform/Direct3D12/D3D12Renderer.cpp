@@ -1,5 +1,6 @@
 
 #include "D3D12Renderer.h"
+#include "D3D12RenderSurface.h"
 #include "Utils/CustomLog.h"
 
 namespace Engine::Graphics::D3D12
@@ -16,7 +17,7 @@ namespace Engine::Graphics::D3D12
 	}
 
 	// Direct3D12 API 사용을 위한 초기화 함수.
-	bool D3D12_Renderer::Initialize()
+	bool D3D12_Renderer::Initialize(Window* wnd)
 	{
 		// 이미 MainDevice 객체가 생성 되었다면 그냥 닫아줌.
 		if (_main_device != nullptr)
@@ -50,8 +51,8 @@ namespace Engine::Graphics::D3D12
 		if (!main_adapter) return Failed_Initialize();
 
 		D3D_FEATURE_LEVEL max_feature_level{ Get_Maximum_Feature_Level(main_adapter.Get()) }; // 선택한 adapter의 최대 feature level을 구함.
-		assert(max_feature_level >= _minimum_feature_level);
-		if (max_feature_level < _minimum_feature_level) return Failed_Initialize();
+		assert(max_feature_level >= minimum_feature_level);
+		if (max_feature_level < minimum_feature_level) return Failed_Initialize();
 
 		// 3. 디바이스 생성.
 		DXCHECK(hr = D3D12CreateDevice(main_adapter.Get(), max_feature_level, IID_PPV_ARGS(&_main_device)));
@@ -88,6 +89,10 @@ namespace Engine::Graphics::D3D12
 		NAME_D3D12_OBJECT(_srv_desc_heap.Heap(), L"SRV Descriptor Heap");
 		NAME_D3D12_OBJECT(_uav_desc_heap.Heap(), L"UAV Descriptor Heap");
 
+		// 6. Render Surface 생성.(스왑 체인, 뷰포트, scissor rect 생성.)
+		_render_surface = std::make_unique<D3D12_RenderSurface>(wnd);
+		_render_surface->Create_Swap_Chain(_dxgi_factory, _gfx_command->Command_Queue(), render_target_format);
+
 		LOG_WARN("Initialized : D3D12Renderer class!");
 
 		return true;
@@ -97,6 +102,7 @@ namespace Engine::Graphics::D3D12
 	void D3D12_Renderer::Shutdown()
 	{
 		_gfx_command->Release();
+		_render_surface->Release();
 
 		// swap chain 등과 같은 리소스들은 종속 리소스들이 해제되기 전 까지 해제 할 수 없으므로 먼저 Process_Deferred_Release()를 호출, 사용하는 자원들을 해제 해줌.
 		for (uint32 i{ 0 }; i < frame_buffer_count; ++i)
@@ -193,7 +199,7 @@ namespace Engine::Graphics::D3D12
 			++i)
 		{
 			// 어댑터를 가지고 최소 feature level을 만족하는 device를 생성할 수 있는지 시도, 만들 수 있으면 해당 어댑터를 리턴함.
-			if (SUCCEEDED(D3D12CreateDevice(adapter, _minimum_feature_level, __uuidof(ID3D12Device), nullptr)))
+			if (SUCCEEDED(D3D12CreateDevice(adapter, minimum_feature_level, __uuidof(ID3D12Device), nullptr)))
 			{
 				return adapter;
 			}
@@ -218,7 +224,7 @@ namespace Engine::Graphics::D3D12
 
 		// device를 생성해보고, CheckFeatureSupport() 함수를 통해 지원하는 최대 feature level을 얻어옴.
 		ComPtr<ID3D12Device> device;
-		DXCHECK(D3D12CreateDevice(adapter, _minimum_feature_level, IID_PPV_ARGS(&device)));
+		DXCHECK(D3D12CreateDevice(adapter, minimum_feature_level, IID_PPV_ARGS(&device)));
 		DXCHECK(device->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &feature_level_info, sizeof(feature_level_info)));
 		return feature_level_info.MaxSupportedFeatureLevel;
 	}

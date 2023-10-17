@@ -149,6 +149,7 @@
     <ClInclude Include="src\Platform\Direct3D12\D3D12Headers.h" />
     <ClInclude Include="src\Platform\Direct3D12\D3D12Macros.h" />
     <ClInclude Include="src\Platform\Direct3D12\D3D12Renderer.h" />
+    <ClInclude Include="src\Platform\Direct3D12\D3D12RenderSurface.h" />
     <ClInclude Include="src\Platform\Direct3D12\D3D12Resources.h" />
     <ClInclude Include="src\Platform\Win32\WindowsHeaders.h" />
     <ClInclude Include="src\Platform\Win32\WindowsWindow.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\Layer\LayerStack.cpp" />
     <ClCompile Include="src\Platform\Direct3D12\D3D12Command.cpp" />
     <ClCompile Include="src\Platform\Direct3D12\D3D12Renderer.cpp" />
+    <ClCompile Include="src\Platform\Direct3D12\D3D12RenderSurface.cpp" />
     <ClCompile Include="src\Platform\Direct3D12\D3D12Resources.cpp" />
     <ClCompile Include="src\Platform\Win32\WindowsWindow.cpp" />
     <ClCompile Include="src\Utils\CustomLog.cpp" />

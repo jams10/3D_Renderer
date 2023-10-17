@@ -7,6 +7,8 @@
 
 namespace Engine::Graphics::D3D12
 {
+	class D3D12_RenderSurface;
+
 	using Microsoft::WRL::ComPtr;
 
 	class D3D12_Renderer : public Renderer
@@ -17,13 +19,17 @@ namespace Engine::Graphics::D3D12
 
 		DISABLE_COPY_AND_MOVE(D3D12_Renderer)
 
-		virtual bool Initialize() override;
+		virtual bool Initialize(Window* wnd) override;
 		virtual void Shutdown() override;
 		virtual void Render() override;
 
 		static D3D12_Renderer* Get_Instance() { return _instance; }
 		static ID3D12Device8* Get_Device() { return _instance->_main_device; }
 		static uint32 Get_Current_Frame_Index() { return _instance->_gfx_command->Frame_Index(); }
+		static Descriptor_Heap& Get_Rtv_Desc_Heap() { return _instance->_rtv_desc_heap; }
+		static Descriptor_Heap& Get_Dsv_Desc_Heap() { return _instance->_dsv_desc_heap; }
+		static Descriptor_Heap& Get_Srv_Desc_Heap() { return _instance->_srv_desc_heap; }
+		static Descriptor_Heap& Get_Uav_Desc_Heap() { return _instance->_uav_desc_heap; }
 
 		void Set_Deferred_Release_Flag();
 		void Deferred_Release(IUnknown* resource);
@@ -40,8 +46,7 @@ namespace Engine::Graphics::D3D12
 		ID3D12Device8* _main_device{ nullptr };
 		IDXGIFactory7* _dxgi_factory{ nullptr };
 		std::unique_ptr<D3D12_Command> _gfx_command{ nullptr };
-
-		D3D_FEATURE_LEVEL _minimum_feature_level{ D3D_FEATURE_LEVEL_11_0 }; // 렌더러가 지원할 가장 낮은 feature level.
+		std::unique_ptr<D3D12_RenderSurface> _render_surface{ nullptr };
 
 		Descriptor_Heap _rtv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_RTV };           // RTV를 위한 heap.
 		Descriptor_Heap _dsv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_DSV };           // DSV를 위한 heap.

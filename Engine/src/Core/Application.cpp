@@ -19,7 +19,7 @@ namespace Engine
 		_wnd = std::unique_ptr<Window>(Window::Create(BIND_EVENT_CALLBACK(&Application::Process_Event)));
 
 		_gfx = std::unique_ptr<Renderer>(Renderer::Create(Graphics::GraphicsPlatform::Direct3D12));
-		_gfx->Initialize();
+		_gfx->Initialize(_wnd.get());
 	}
 
 	Application::~Application()

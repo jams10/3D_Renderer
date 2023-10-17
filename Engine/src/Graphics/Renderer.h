@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common/CommonHeaders.h"
+#include "Window/Window.h"
 
 namespace Engine::Graphics
 {
@@ -17,7 +18,7 @@ namespace Engine::Graphics
 		virtual ~Renderer() {}
 		DISABLE_COPY_AND_MOVE(Renderer)
 
-		virtual bool Initialize() = 0;
+		virtual bool Initialize(Window* wnd) = 0;
 		virtual void Shutdown() = 0;
 		virtual void Render() = 0;
 

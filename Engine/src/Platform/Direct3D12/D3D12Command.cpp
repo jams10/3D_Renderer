@@ -50,9 +50,9 @@ namespace Engine::Graphics::D3D12
 
 		NAME_D3D12_OBJECT(_cmd_list,
 			type == D3D12_COMMAND_LIST_TYPE_DIRECT ?
-			L"Graphics Command Queue" :
+			L"Graphics Command List" :
 			type == D3D12_COMMAND_LIST_TYPE_COMPUTE ?
-			L"Compute Command Queue" : L"Command Queue");
+			L"Compute Command List" : L"Command List");
 
 		// 4. Fence¿Í Fence Event »ý¼º.
 		DXCHECK(hr = device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence)));
